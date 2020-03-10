@@ -19,26 +19,27 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class PlayerActivity extends AppCompatActivity {
+    static MediaPlayer myMediaPlayer;
 
     Button btn_next, btn_previos, btn_pause;
     TextView songTextLabel;
     SeekBar songSeekbar;
 
-    static MediaPlayer myMediaPlayer;
-    int position;
+    Thread updateseekBar;
     String sname;
     ArrayList<File> mySongs;
-    Thread updateseekBar;
+
+    int position;
 
 
     @SuppressLint("NewApi")// – это аннотация, используемая инструментом Android Lint.
-   // Линт расскажет вам, когда что-то в вашем коде не является оптимальным или может упасть.
+    // Линт расскажет вам, когда что-то в вашем коде не является оптимальным или может упасть.
     // Пропуская NewApi , вы подавляете все предупреждения, которые расскажут вам,
     // используете ли вы какой-либо API, введенный после вашего minSdkVersion
     @Override
     protected void onCreate(Bundle savedInstanceState) { //задаёт начальную установку параметров при инициализации активности
         super.onCreate(savedInstanceState);// вызиваем версию метода из супер класса
-        setContentView(R.layout.activity_player);// принимаем даные
+        setContentView(R.layout.activity_main);// принимаем даные
 
         btn_next = (Button) findViewById(R.id.next);
         btn_previos = (Button) findViewById(R.id.previus);
@@ -53,7 +54,6 @@ public class PlayerActivity extends AppCompatActivity {
 
 
         updateseekBar = new Thread() {
-
             @Override
             public void run() { //Функцыонал seekBar
 
@@ -92,13 +92,13 @@ public class PlayerActivity extends AppCompatActivity {
 
         position = bundle.getInt("pos", 0);
 
-        Uri u = Uri.parse(mySongs.get(position).toString()); //Открытый конечный класс
+       /* Uri u = Uri.parse(mySongs.get(position).toString()); //Открытый конечный класс
 
         myMediaPlayer = MediaPlayer.create(getApplicationContext(), u);
 
-        myMediaPlayer.start();
+        myMediaPlayer.start();*/
 
-        songSeekbar.setMax(myMediaPlayer.getDuration());// Максемальная продолжительность песни
+       /* songSeekbar.setMax(myMediaPlayer.getDuration());// Максемальная продолжительность песни
 
         updateseekBar.start();
 
@@ -122,26 +122,9 @@ public class PlayerActivity extends AppCompatActivity {
 
                 myMediaPlayer.seekTo(seekBar.getProgress());
             }
-        });
+        });*/
 
 
-        btn_pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                songSeekbar.setMax(myMediaPlayer.getDuration());
-
-                if (myMediaPlayer.isPlaying()) {
-
-                    btn_pause.setBackgroundResource(R.drawable.icon_play);
-                    myMediaPlayer.pause();
-                } else {
-                    btn_pause.setBackgroundResource(R.drawable.icon_pause);
-                    myMediaPlayer.start();
-                }
-            }
-
-        });
 
 
         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +146,6 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
-
         btn_previos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,8 +163,6 @@ public class PlayerActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     @Override
