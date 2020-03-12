@@ -2,10 +2,8 @@ package com.example.idealmusic.common;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.SeekBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.util.List;
 public class MediaPlayerHelper {
     private Context context;
     private static MediaPlayerHelper instance;
-    private MediaPlayer player;
+    private android.media.MediaPlayer player;
 
     private List songsList = new ArrayList<File>();
 
@@ -28,12 +26,6 @@ public class MediaPlayerHelper {
         return instance;
     }
 
-    public List getTrackList(Context context) {
-        songsList = getAllAudios(context);
-        return songsList;
-    }
-
-
     public void playByPosition(Context context, int position) {
         if (songsList.isEmpty()) return;
 
@@ -43,36 +35,13 @@ public class MediaPlayerHelper {
         }
 
         Uri u = Uri.parse(songsList.get(position).toString()); //Открытый конечный класс
-        player = MediaPlayer.create(context, u);
+        player = android.media.MediaPlayer.create(context, u);
         player.start();
     }
 
-    public int getDuration() {
-        if (player != null) {
-            return player.getDuration();
-        } else return 0;
+    public List getTrackList(Context context) {
+        return getAllAudios(context);
     }
-
-    public int getCurrentPosition() {
-        return player.getCurrentPosition();
-    }
-
-    public void seekTo(int position) {
-        player.seekTo(position);
-    }
-
-    public boolean isPlaying() {
-        return player.isPlaying();
-    }
-
-    public void pause() {
-        player.pause();
-    }
-
-    public void start() {
-        player.start();
-    }
-
 
     private List<File> getAllAudios(Context context) { //функция, которая дает нам все аудиофайлы в File Object.
         List<File> files = new ArrayList<>();
@@ -89,5 +58,21 @@ public class MediaPlayerHelper {
             e.printStackTrace();
         }
         return files;
+    }
+
+    public ArrayList<File> findSong(File file) {  //Делаем список масивов чтобы найти песню
+        ArrayList<File> arrayList = new ArrayList<>();
+        File[] files = file.listFiles();
+        for (File singleFile : files) { // Логічна функція
+            if (singleFile.isDirectory()/* && !singleFile.isHidden()*/) {
+                arrayList.addAll(findSong(singleFile));
+            } else {
+                if (singleFile.getName().endsWith(".mp3") ||
+                        singleFile.getName().endsWith(".m4a")) {
+                    arrayList.add(singleFile);
+                }
+            }
+        }
+        return arrayList;
     }
 }

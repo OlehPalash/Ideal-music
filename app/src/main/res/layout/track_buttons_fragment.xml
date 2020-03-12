@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="@+id/seekBar">
 
         <Button
-            android:id="@+id/previus"
+            android:id="@+id/previous"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
@@ -51,7 +51,6 @@
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/pause"
             android:background="@drawable/icon_next" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

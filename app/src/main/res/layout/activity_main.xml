@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="70"
-        android:entries="@array/sports_array" />
+        tools:entries="@array/sports_array" />
 
     <TextView
         android:id="@+id/songLabel"
@@ -29,10 +29,11 @@
         tools:text="Song name" />
 
     <LinearLayout
-        android:id="@+id/layout_buttons"
+        android:id="@+id/player_control_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="25"
+        android:visibility="invisible"
         android:orientation="vertical">
 
         <SeekBar
